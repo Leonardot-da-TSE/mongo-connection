@@ -13,23 +13,28 @@ import java.util.Arrays;
  */
 public class ConnectionGenerator {
 
-    protected int connectionMultiplier = 300;
-    protected int connectionsPerHost = 10;
-    protected int connectTimeout = 5000;
+    protected int waitCount = 300;
+    protected int maxConnection = 10;
+    protected int timeout = 5000;
     protected int defaultPort = 27017;
 
     public ConnectionGenerator() {
        super();
     }
 
-
+    public ConnectionGenerator(int waitCount, int maxConnection, int timeout) {
+        super();
+        this.waitCount = waitCount;
+        this.maxConnection = maxConnection;
+        this.timeout = timeout;
+    }
 
     //絬祘单计秖  * 诀程硈絬计  = pool 计秖
     private MongoClientOptions options(){
         return new MongoClientOptions.Builder()
-                .threadsAllowedToBlockForConnectionMultiplier(connectionMultiplier)	//絬祘单计秖
-                .connectionsPerHost(connectionsPerHost)								//诀程硈絬计
-                .connectTimeout(connectTimeout)
+                .threadsAllowedToBlockForConnectionMultiplier(waitCount)    //絬祘单计秖
+                .connectionsPerHost(maxConnection)						    //诀程硈絬计
+                .connectTimeout(timeout)
                 .build();
     }
 
