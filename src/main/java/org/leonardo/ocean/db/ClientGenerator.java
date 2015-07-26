@@ -11,15 +11,31 @@ import java.util.Arrays;
  * Created by Leonardo - Ocean  on 2015/7/25.
  * ノㄓミ mongodb 硈絬
  */
-public class ConnectionGenerator {
+public class ClientGenerator {
 
-    static final private ConnectionGenerator generator = new ConnectionGenerator();
+    static final private ClientGenerator generator = new ClientGenerator();
 
-    private ConnectionGenerator() {
+    static public MongoClientOptions defaultOptions(){
+            return new MongoClientOptions.Builder()
+                .threadsAllowedToBlockForConnectionMultiplier(300)      //絬祘单计秖
+                .connectionsPerHost(10)                                   //诀程硈絬计
+                .connectTimeout(5000)
+                .build();
+    }
+
+    static public MongoClientOptions options(int waitCount, int maxConnection, int timeOut) {
+        return new MongoClientOptions.Builder()
+                .threadsAllowedToBlockForConnectionMultiplier(waitCount)      //絬祘单计秖
+                .connectionsPerHost(maxConnection)                                 //诀程硈絬计
+                .connectTimeout(timeOut)
+                .build();
+    }
+
+    private ClientGenerator() {
         super();
     }
 
-    static public ConnectionGenerator generator(){
+    static public ClientGenerator generator(){
         return  generator;
     }
 
