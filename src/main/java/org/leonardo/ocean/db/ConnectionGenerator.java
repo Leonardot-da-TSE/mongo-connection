@@ -13,8 +13,14 @@ import java.util.Arrays;
  */
 public class ConnectionGenerator {
 
-    public ConnectionGenerator() {
+    static final private ConnectionGenerator generator = new ConnectionGenerator();
+
+    private ConnectionGenerator() {
         super();
+    }
+
+    static public ConnectionGenerator generator(){
+        return  generator;
     }
 
     /**本地端連線*/
