@@ -13,40 +13,24 @@ import java.util.Arrays;
  */
 public class ConnectionGenerator {
 
-    protected int waitCount = 300;
-    protected int maxConnection = 10;
-    protected int timeout = 5000;
-    protected int defaultPort = 27017;
-
     public ConnectionGenerator() {
-       super();
-    }
-
-    public ConnectionGenerator(int waitCount, int maxConnection, int timeout) {
         super();
-        this.waitCount = waitCount;
-        this.maxConnection = maxConnection;
-        this.timeout = timeout;
     }
 
-    //絬祘单计秖  * 诀程硈絬计  = pool 计秖
-    private MongoClientOptions options(){
-        return new MongoClientOptions.Builder()
-                .threadsAllowedToBlockForConnectionMultiplier(waitCount)    //絬祘单计秖
-                .connectionsPerHost(maxConnection)						    //诀程硈絬计
-                .connectTimeout(timeout)
-                .build();
+    /**セ狠硈絬*/
+    public MongoClient connection(){
+        return new MongoClient( "localhost" , 27017 );
     }
 
-    protected MongoClient connection(String host){
-        return connection(host, defaultPort);
+    public MongoClient connection(String host){
+        return new MongoClient( host , 27017 );
     }
 
-    protected MongoClient connection(String host, int port){
+    public MongoClient connection(String host, int port, MongoClientOptions options){
         MongoClient client = null;
         try{
             ServerAddress address = new ServerAddress(host, port);
-            client = new MongoClient(address, options());
+            client = new MongoClient(address, options);
         }catch(Exception error) {
             if(client != null){
                 client.close();
@@ -57,12 +41,12 @@ public class ConnectionGenerator {
     }
 
     /**喷靡硈絬ミ*/
-    protected MongoClient connection(String host, int port , String dbName, String user, String password){
+    public MongoClient connection(String host, int port , String dbName, String user, String password, MongoClientOptions options ){
         MongoClient client = null;
         try {
             MongoCredential credential = MongoCredential.createMongoCRCredential(user, dbName, password.toCharArray());
             ServerAddress address = new ServerAddress(host, port);
-            client = new MongoClient(address, Arrays.asList(credential), options());
+            client = new MongoClient(address, Arrays.asList(credential), options);
 
         }catch (Exception error){
             if(client != null){
