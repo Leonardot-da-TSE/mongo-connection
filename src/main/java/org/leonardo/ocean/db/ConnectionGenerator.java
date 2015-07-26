@@ -26,6 +26,10 @@ public class ConnectionGenerator {
         return new MongoClient( host , 27017 );
     }
 
+    public MongoClient connection(String host, MongoClientOptions options){
+        return connection( host , 27017 , options);
+    }
+
     public MongoClient connection(String host, int port, MongoClientOptions options){
         MongoClient client = null;
         try{
